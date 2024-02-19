@@ -17,4 +17,7 @@ public class CalculatorController {
     public int multiplyTwoNumbers(@RequestBody CalculatorMultiplyRequest request) {// body 안의 객체를 읽어온다.
         return request.getNumber1() * request.getNumber2();
     }
+
+
+
 }
