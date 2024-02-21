@@ -3,13 +3,11 @@ package com.group.libraryapp.controller.user;
 import com.group.libraryapp.domain.user.Fruit;
 import com.group.libraryapp.domain.user.User;
 import com.group.libraryapp.dto.user.request.UserCreateRequest;
+import com.group.libraryapp.dto.user.request.UserUpdateRequest;
 import com.group.libraryapp.dto.user.response.UserResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +20,7 @@ public class UserController {
     private final JdbcTemplate jdbcTemplate;
 
     public UserController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate=jdbcTemplate;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
 
@@ -58,6 +56,32 @@ public class UserController {
 //        }
 //        return responses;
     }
+
+
+    @PutMapping("/user")
+    public void updateUser(@RequestBody UserUpdateRequest request) {
+        String readSql = "Select * from user where id = ?";
+        boolean isUserNotExist = jdbcTemplate.query(readSql, (rs, rowNum) -> 0, request.getId());
+        if (isUserNotExist) {
+            throw new IllegalArgumentException();
+        }
+
+        String sql = "Update user set name = ? where id = ?";
+        jdbcTemplate.update(sql, request.getName(), request.getId());
+    }
+
+    @DeleteMapping("/user")
+    public void deleteUser(@RequestParam String name) {
+        String sql = "Delete from user where name = ?";
+        jdbcTemplate.update(sql, name);
+    }
+
+
+//    //error test
+//    @GetMapping("user/error-test")
+//    public void errorTest() {
+//        throw new RuntimeException("에러 테스트");
+//    }
 }
 
 
