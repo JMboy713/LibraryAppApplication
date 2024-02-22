@@ -73,7 +73,7 @@ public class UserController {
     @DeleteMapping("/user")
     public void deleteUser(@RequestParam String name) {
         String readSql = "Select * from user where name = ?";
-        boolean isUserNotExist = jdbcTemplate.query(readSql, (rs, rowNum) -> 0, name).isEmpty();
+        boolean isUserNotExist = jdbcTemplate.query(readSql, (rs, rowNum) -> 0, name).isEmpty(); // rowMapper 를 람다로 받음 -> rowMapper 는 ResultSet 을 받아서 원하는 객체로 변환해주는 역할을 한다.
         if (isUserNotExist) {
             throw new IllegalArgumentException();
         }

@@ -1,15 +1,15 @@
-package com.group.libraryapp.domain.user;
+package com.group.libraryapp.dto.example.request;
 
 import java.time.LocalDate;
 
-public class Fruit {
+public class FruitRequest {
     private String name;
-    private LocalDate warehousingDate;
+    private String warehousingDate;
     private long price;
 
-    public Fruit(String name, LocalDate warehousingDate, long price) {
+    public FruitRequest(String name, LocalDate warehousingDate, long price) {
         this.name = name;
-        this.warehousingDate = warehousingDate;
+        this.warehousingDate = warehousingDate.toString();
         this.price = price;
     }
 
@@ -17,7 +17,7 @@ public class Fruit {
         return name;
     }
 
-    public LocalDate getWarehousingDate() {
+    public String getWarehousingDate() {
         return warehousingDate;
     }
 
