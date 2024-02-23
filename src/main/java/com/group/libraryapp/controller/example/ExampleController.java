@@ -2,6 +2,7 @@ package com.group.libraryapp.controller.example;
 
 import com.group.libraryapp.dto.example.request.*;
 import com.group.libraryapp.dto.example.response.*;
+import com.group.libraryapp.service.fruit.FruitService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,13 @@ import java.util.List;
 
 @RestController
 public class ExampleController {
-    public ExampleController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+//    public ExampleController(JdbcTemplate jdbcTemplate) {
+//        this.jdbcTemplate = jdbcTemplate;
+//    }
+    private final FruitService fruitService;
+    public ExampleController(FruitService fruitService) {
+        this.fruitService = fruitService;
     }
-
     // 과제 - 문제 1.
     @GetMapping("/api/v1/calc")
     public CalculatorResponse calculator(CalculatorReqeust request){
@@ -40,12 +44,11 @@ public class ExampleController {
 //    }
 
 //    private final List<Fruit> fruits = new ArrayList<>();
-    private final JdbcTemplate jdbcTemplate;
+//    private final JdbcTemplate jdbcTemplate;
 
     @PostMapping("api/v1/fruit")
     public void saveFruit(@RequestBody FruitRequest request){
-        String sql = "Insert into fruit(name, warehousingDate, price,sold) Values(?,?,?,?)";
-        jdbcTemplate.update(sql, request.getName(), request.getWarehousingDate(), request.getPrice(),false);
+        fruitService.saveFruit(request);
 ////        fruits.add(new Fruit(request.getName(), request.getWarehousingDate(), request.getPrice()));
 //        return new FruitResponse(fruits.get(fruits.size() - 1));
 
@@ -53,21 +56,13 @@ public class ExampleController {
 
     @PutMapping("api/v1/fruit")
     public void sellFruit(@RequestBody FruitUpdateRequest request) {
-        String sql = "update fruit set sold = ? where id = ?";
-        jdbcTemplate.update(sql, true,request.getId());
+        fruitService.sellFruit(request);
     }
 
     @GetMapping("api/v1/fruit/stat")
     public List<FruitSoldResponse> fruitSoldResponse(@RequestParam("name") String name){
-        String sql ="select"+
-                "(select sum(price) from fruit where sold = 1) as salesAmount, " +
-                "(select sum(price) from fruit where sold = 0) as notSalesAmount";
+        return fruitService.getFruit(name);
 
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            long salesAmount = rs.getLong("salesAmount");
-            long notSalesAmount = rs.getLong("notSalesAmount");
-            return new FruitSoldResponse(salesAmount, notSalesAmount);
-        });
     }
 
 
