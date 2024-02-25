@@ -22,7 +22,7 @@ public class Fruit {
         this.name = name;
         this.warehousingDate = warehousingDate;
         this.price = price;
-        this.Sold=false;
+
     }
 
     public String getName() {
@@ -37,11 +37,13 @@ public class Fruit {
         return price;
     }
 
-    public boolean isSold() {
+    public boolean Solden() {
         return Sold;
     }
 
     public void updatesold(boolean isSold) {
         this.Sold = isSold;
     }
+
+
 }

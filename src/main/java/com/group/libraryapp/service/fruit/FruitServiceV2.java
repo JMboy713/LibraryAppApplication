@@ -4,6 +4,7 @@ import com.group.libraryapp.domain.fruit.Fruit;
 import com.group.libraryapp.domain.fruit.FruitRepository;
 import com.group.libraryapp.dto.example.request.FruitRequest;
 import com.group.libraryapp.dto.example.request.FruitUpdateRequest;
+import com.group.libraryapp.dto.example.response.FruitCountResponse;
 import com.group.libraryapp.dto.example.response.FruitResponse;
 import com.group.libraryapp.dto.example.response.FruitSoldResponse;
 import org.springframework.stereotype.Service;
@@ -37,14 +38,25 @@ public class FruitServiceV2 {
         List<Fruit> fruits = fruitRepository.findAllByName(name);
 
         long salesAmount = fruits.stream()
-                .filter(Fruit::isSold)
+                .filter(Fruit::Solden)
                 .mapToLong(Fruit::getPrice)
                 .sum();
 
         long notSalesAmount = fruits.stream()
-                .filter(fruit -> !fruit.isSold())
+                .filter(fruit -> !fruit.Solden())
                 .mapToLong(Fruit::getPrice)
                 .sum();
         return new FruitSoldResponse(salesAmount, notSalesAmount);
+    }
+
+    public FruitCountResponse getFruitCount(String name) {
+        return new FruitCountResponse(fruitRepository.countByName(name));
+    }
+
+    public List<Fruit> getFruits(String option, long price) {
+        if (option.equals("GTE")) {
+            return fruitRepository.findAllByPriceGreaterThan(price);
+        }
+        return fruitRepository.findAllByPriceLessThan(price);
     }
 }
