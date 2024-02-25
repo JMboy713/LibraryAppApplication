@@ -3,6 +3,7 @@ package com.group.libraryapp.controller.example;
 import com.group.libraryapp.dto.example.request.*;
 import com.group.libraryapp.dto.example.response.*;
 import com.group.libraryapp.service.fruit.FruitService;
+import com.group.libraryapp.service.fruit.FruitServiceV2;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,12 @@ public class ExampleController {
 //    public ExampleController(JdbcTemplate jdbcTemplate) {
 //        this.jdbcTemplate = jdbcTemplate;
 //    }
-    private final FruitService fruitService;
-    public ExampleController(FruitService fruitService) {
+    private final FruitServiceV2 fruitService;
+
+    public ExampleController(FruitServiceV2 fruitService) {
         this.fruitService = fruitService;
     }
+
     // 과제 - 문제 1.
     @GetMapping("/api/v1/calc")
     public CalculatorResponse calculator(CalculatorReqeust request){
@@ -60,7 +63,7 @@ public class ExampleController {
     }
 
     @GetMapping("api/v1/fruit/stat")
-    public List<FruitSoldResponse> fruitSoldResponse(@RequestParam("name") String name){
+    public FruitSoldResponse fruitSoldResponse(@RequestParam("name") String name){
         return fruitService.getFruit(name);
 
     }

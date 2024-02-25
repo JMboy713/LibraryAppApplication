@@ -6,7 +6,7 @@ public class FruitUpdateRequest {
     private String warehousingDate;
     private long price;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

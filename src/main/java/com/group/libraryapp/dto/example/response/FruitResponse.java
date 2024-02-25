@@ -1,7 +1,6 @@
 package com.group.libraryapp.dto.example.response;
 
-import com.group.libraryapp.domain.user.Fruit;
-import com.group.libraryapp.dto.example.request.FruitRequest;
+import com.group.libraryapp.domain.fruit.Fruit;
 
 public class FruitResponse {
     private String name;
