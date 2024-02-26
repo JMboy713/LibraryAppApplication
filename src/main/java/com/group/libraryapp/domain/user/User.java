@@ -1,6 +1,10 @@
 package com.group.libraryapp.domain.user;
 
+import com.group.libraryapp.domain.user.userloanhistory.UserLoanHistory;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // 스프링이 User 객체와 user 테이블을 같은 것으로 바라보게 한다.
 public class User {
@@ -11,6 +15,10 @@ public class User {
     private String name;
     // column 생략 가능.
     private Integer age;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true) // 연관관계의 주인이 아닌 user 쪽에 mappedBy 를 설정해야 한다.
+    private List<UserLoanHistory> userLoanHistories = new ArrayList<>();
+
 
     // 기본 생성자가 필요하다
     protected User() {
@@ -38,6 +46,18 @@ public class User {
 
     public void updateName(String name) {
         this.name = name;
+    }
+
+    public void loanBook(String bookName) {
+        userLoanHistories.add(new UserLoanHistory(this, bookName));
+    }
+
+    public void returnBook(String bookName) {
+        UserLoanHistory targetHistory = this.userLoanHistories.stream()
+                .filter(history -> history.getBookName().equals(bookName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(String.format("대여한 책(%s)이 없습니다.", bookName)));
+        targetHistory.returnBook(true);
     }
 
 

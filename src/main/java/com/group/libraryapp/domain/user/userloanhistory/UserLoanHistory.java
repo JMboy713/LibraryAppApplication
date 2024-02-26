@@ -1,5 +1,6 @@
 package com.group.libraryapp.domain.user.userloanhistory;
 
+import com.group.libraryapp.domain.user.User;
 import com.group.libraryapp.dto.book.request.BookLoanRequest;
 
 import javax.persistence.*;
@@ -11,8 +12,8 @@ public class UserLoanHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = null;
 
-    @Column(nullable = false,name="user_id")
-    private long userId;
+    @ManyToOne
+    private User user;
 
     @Column(nullable = false,name="book_name")
     private String bookName;
@@ -22,14 +23,20 @@ public class UserLoanHistory {
 
     protected UserLoanHistory() {
     }
+    public UserLoanHistory(User user, String bookName) {
 
-    public UserLoanHistory(long userId, String bookName) {
-        this.userId = userId;
+        this.user = user;
         this.bookName = bookName;
         this.isReturned = false;
+    }
+
+    public String getBookName() {
+        return bookName;
     }
 
     public void returnBook(boolean returned) {
         isReturned = returned;
     }
+
+
 }
