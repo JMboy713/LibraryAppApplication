@@ -28,7 +28,7 @@ public class UserServiceV2 {
         User u = userRepository.save(new User(request.getName(), request.getAge())); // JPA를 통해서 DB에 저장\
         //save 이후에는 id가 생성된다.
 //        u.getId();// 1,2,3 과 같은 형식으로 데이터가 들어가게 된다.
-        throw new IllegalArgumentException();
+//        throw new IllegalArgumentException();
     }
 
     @Transactional(readOnly = true)

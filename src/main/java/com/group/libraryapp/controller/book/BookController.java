@@ -1,8 +1,10 @@
 package com.group.libraryapp.controller.book;
 
+import com.group.libraryapp.dto.book.request.BookCreateRequest;
+import com.group.libraryapp.dto.book.request.BookLoanRequest;
+import com.group.libraryapp.dto.book.request.BookReturnRequest;
 import com.group.libraryapp.service.book.BookService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class BookController {
@@ -13,7 +15,17 @@ public class BookController {
     }// 생성자로 의존성 주입.
 
     @PostMapping("/book")
-    public void saveBook() {
-        bookService.saveBook();
+    public void saveBook(@RequestBody BookCreateRequest request) {
+        bookService.saveBook(request);
+    }
+
+    @PostMapping("/book/loan")
+    public void loanBook(@RequestBody BookLoanRequest request) {
+        bookService.loanBook(request);
+    }
+
+    @PutMapping("/book/return")
+    public void returnBook(@RequestBody BookReturnRequest request) {
+        bookService.returnBook(request);
     }
 }
