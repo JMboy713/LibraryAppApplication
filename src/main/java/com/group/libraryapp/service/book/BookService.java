@@ -1,33 +1,26 @@
 package com.group.libraryapp.service.book;
 
 
-
 import com.group.libraryapp.domain.book.Book;
 import com.group.libraryapp.domain.book.BookRepository;
 import com.group.libraryapp.domain.user.User;
 import com.group.libraryapp.domain.user.UserRepository;
-import com.group.libraryapp.domain.user.userloanhistory.UserLoanHistory;
 import com.group.libraryapp.domain.user.userloanhistory.UserLoanHistoryRepository;
 import com.group.libraryapp.dto.book.request.BookCreateRequest;
 import com.group.libraryapp.dto.book.request.BookLoanRequest;
 import com.group.libraryapp.dto.book.request.BookReturnRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
+@RequiredArgsConstructor // final 이 붙은것에 대해 생성자가 만들어진다.
 public class BookService {
     private final BookRepository bookrepository;
     private final UserLoanHistoryRepository userLoanHistoryRepository;
     private final UserRepository userRepository;
 
-    public BookService(BookRepository bookrepository, UserLoanHistoryRepository userLoanHistoryRepository, UserRepository userRepository) {
-        this.bookrepository = bookrepository;
-        this.userLoanHistoryRepository = userLoanHistoryRepository;
-        this.userRepository = userRepository;
-    }
+
 
     //    @Autowired
 //    public void setBookrepository(Bookrepository bookrepository) {

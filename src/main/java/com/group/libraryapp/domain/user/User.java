@@ -1,12 +1,14 @@
 package com.group.libraryapp.domain.user;
 
 import com.group.libraryapp.domain.user.userloanhistory.UserLoanHistory;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity // 스프링이 User 객체와 user 테이블을 같은 것으로 바라보게 한다.
+@NoArgsConstructor // 기본생성자 생성해줌.(access level 을 protected 로 설정하면 외부에서 생성자를 호출할 수 없다.)
 public class User {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
@@ -21,8 +23,7 @@ public class User {
 
 
     // 기본 생성자가 필요하다
-    protected User() {
-    }
+
 
     public User(String name, Integer age) {
         if (name == null || name.isBlank()) {
